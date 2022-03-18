@@ -3,6 +3,15 @@
 #include <stack>
 #include <fstream>
 #include <set>
+using namespace std;
+
+set<char> alpha = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+ 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 
+ 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_'};
+
+set<char> num = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
+set<char> sign = {'+', '-', '=', '*', '/', '^', '(', ')'};
 
 class numbers{		//para identificar números enteros y decimales
 	
@@ -11,59 +20,58 @@ class numbers{		//para identificar números enteros y decimales
         string numero;
         string resto;
         string r;
-
-	public:
+	
+    public:
 
         void caso0(char c){		//inicio
-            if(n.find(c) != n.end()){
+            if(num.find(c) != num.end()){
                 caso = 1;
-                numero+=c;
+                numero += c;
             }
             else if(c == '+' || c == '-'){
                 caso = 2;
-                numero+=c;
+                numero += c;
             }
             else if(c == '.'){
                 caso = 3;
-                numero+=c;
+                numero += c;
             }
             else{
                 caso = -1;
-                resto +=c;
+                resto += c;
             }
-
         }
 
         void caso1(char c){		//int
-            if(n.find(c) != n.end()){
-                numero+=c;
+            if(num.find(c) != num.end()){
+                numero += c;
             }
             else if(c == '.'){
                 caso = 3;
-                numero+=c;
+                numero += c;
             }
             else if(c == 'e' || c == 'E'){
                 caso = 5;
-                numero+=c;
+                numero += c;
             }
             else{
                 caso = -1;
-                resto+=c;
+                resto += c;
                 cout << "'" << numero << "' = número entero" << endl;
             }
         }
 
         void caso2(char c){	//signo
-            if(n.find(c) != n.end()){
-                numero+=c;
+            if(num.find(c) != num.end()){
+                numero += c;
                 caso = 1;
             }
             else if(c == '.'){
                 caso = 3;
-                numero+=c;
+                numero += c;
             }
             else {
-                if (numero == "+") {		//identificando signos de suma y resta
+                if (numero == "+") {	//identificando signos de suma y resta
                     cout << "'" << numero << "' = suma" << endl;
                     caso = -1;
                     resto+=c;
@@ -71,19 +79,18 @@ class numbers{		//para identificar números enteros y decimales
                 else if(numero == "-") {
                     cout << "'" << numero << "' = resta" << endl;
                     caso = -1;
-                    resto+=c;
+                    resto += c;
                 }
                 else {
-                    resto+=c;
+                    resto += c;
                     caso = -1;
                 }
-
             }		
-
         }
+
         void caso3(char c){		//punto
-            if(n.find(c) != n.end()){
-                numero+=c;
+            if(num.find(c) != num.end()){
+                numero += c;
                 caso = 4;
             }
             else if(numero.size() == 1){
@@ -96,26 +103,27 @@ class numbers{		//para identificar números enteros y decimales
         }
 
         void caso4(char c){		//número después del punto
-            if(n.find(c) != n.end()){
-            numero+=c;
+            if(num.find(c) != num.end()){
+            numero += c;
             }
             else if(c == 'e' || c == 'E'){
-                numero+=c;
+                numero += c;
                 caso = 5;
             }
             else{
                 cout << "'" << numero << "' = número real" << endl;
                 caso = -1;
-                resto +=c;
+                resto += c;
             }
         }
+
         void caso5(char c){		//e, E
             if(c == '+' || c == '-'){
                 caso = 6;
                 numero+=c;
             }
             else if(n.find(c) != n.end()){
-            numero+=c;
+            numero += c;
             caso = 7;
             }		
             else {
@@ -147,6 +155,7 @@ class numbers{		//para identificar números enteros y decimales
             }		
 
         }
+
         string casos(string input){
             char c;
             caso = 0;
@@ -174,4 +183,5 @@ class numbers{		//para identificar números enteros y decimales
             resto = "";
             numero= "";
             return r;
+        };
 };
