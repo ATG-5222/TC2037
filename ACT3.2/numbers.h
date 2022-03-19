@@ -15,14 +15,13 @@ set<char> sign = {'+', '-', '=', '*', '/', '^', '(', ')'};
 
 class numbers{		//para identificar números enteros y decimales
 	
-    private:
+    public:
+    
         int caso;
         string numero;
         string resto;
         string r;
 	
-    public:
-
         void caso0(char c){		//inicio
             if(num.find(c) != num.end()){
                 caso = 1;

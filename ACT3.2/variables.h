@@ -5,7 +5,7 @@
 #include <set>
 using namespace std;
 
-set<char> alph = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+set<char> alpha = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
  't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 
  'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_'};
 
@@ -13,7 +13,7 @@ set<char> n = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 set<char> sgn = {'+', '-', '=', '*', '/', '^', '(', ')'};
 
-class var {		//para identificar variables
+class variables {		//para identificar variables
 private:
 int caso;
 string v;
@@ -22,7 +22,7 @@ string r;
 
 public:
 	void inicio(char c){
-		if (alph.find(c) != alph.end()){
+		if (alpha.find(c) != alpha.end()){
 			caso = 1;
 			v+=c;
 		}
@@ -33,7 +33,7 @@ public:
 		}
 	}
 	void caso1(char c){
-		if (alph.find(c) != alph.end() || n.find(c) != n.end()){
+		if (alpha.find(c) != alph.end() || n.find(c) != n.end()){
 			v+=c;
 		}
 		else {

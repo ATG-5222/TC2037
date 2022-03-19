@@ -5,42 +5,44 @@
 #include <set>
 using namespace std;
 
-set<char> alph = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+set<char> alpha = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
  't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 
  'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_'};
 
-set<char> n = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+set<char> num = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-set<char> sgn = {'+', '-', '=', '*', '/', '^', '(', ')'};
-
+set<char> sign = {'+', '-', '=', '*', '/', '^', '(', ')'};
 
 class signs {
+
 private:
+
 	int caso;
 	string s;
 	string resto;
 	string r;
 
 public:
+
 	void caso0(char c){
 		if (c == '*'){
-			cout << "'" << c << "' = multiplicación" << endl;
+			cout << "'" << c << "' = Multiplicación" << endl;
 			caso = -1;
 		}
 		else if (c == '^'){
-			cout << "'" << c << "' = potencia" << endl;
+			cout << "'" << c << "' = Potencia" << endl;
 			caso = -1;
 		}
 		else if (c == '='){
-			cout << "'" << c << "' = asignación" << endl;
+			cout << "'" << c << "' = Asignación" << endl;
 			caso = -1;
 		}
 		else if (c == '('){
-			cout << "'" << c << "' = paréntesis que abre" << endl;
+			cout << "'" << c << "' = Paréntesis izquierdo" << endl;
 			caso = -1;
 		}
 		else if (c == ')'){
-			cout << "'" << c << "' = paréntesis que cierra" << endl;
+			cout << "'" << c << "' = Paréntesis derecho" << endl;
 			caso = -1;
 		}					
 		else if (c == '/'){
@@ -55,7 +57,7 @@ public:
 			s+=c;
 		}
 		else {
-			cout << "'/' = división" << endl;
+			cout << "'/' = División" << endl;
 			caso = -1;
 			resto+=c;
 		}
@@ -78,7 +80,7 @@ public:
 			}
 		}
 		if (caso == 2){
-			cout << "'" << s << "' = comentario" << endl;
+			cout << "'" << s << "' = Comentario" << endl;
 		}
 		string r = resto;
 		resto = "";
