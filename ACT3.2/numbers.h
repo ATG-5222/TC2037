@@ -121,7 +121,7 @@ class numbers{		//para identificar números enteros y decimales
                 caso = 6;
                 numero+=c;
             }
-            else if(n.find(c) != n.end()){
+            else if(num.find(c) != num.end()){
             numero += c;
             caso = 7;
             }		
@@ -133,7 +133,7 @@ class numbers{		//para identificar números enteros y decimales
         }
 
         void caso6(char c){		//signo después de e,E
-            if(n.find(c) != n.end()){
+            if(num.find(c) != num.end()){
             numero+=c;
             caso = 7;
             }	
@@ -144,7 +144,7 @@ class numbers{		//para identificar números enteros y decimales
             }
         }
         void caso7(char c){		//número después de e,E
-            if(n.find(c) != n.end()){
+            if(num.find(c) != num.end()){
             numero+=c;
             }	
             else{

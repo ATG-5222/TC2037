@@ -4,9 +4,9 @@
 #include <fstream>
 #include <set>
 
-#include <numbers.h>
-#include <signs.h>
-#include <variables.h>
+#include "numbers.h"
+#include "signs.h"
+#include "variables.h"
 
 using namespace std;
 

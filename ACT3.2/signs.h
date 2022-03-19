@@ -15,14 +15,12 @@ set<char> sign = {'+', '-', '=', '*', '/', '^', '(', ')'};
 
 class signs {
 
-private:
+public:
 
 	int caso;
 	string s;
 	string resto;
 	string r;
-
-public:
 
 	void caso0(char c){
 		if (c == '*'){
