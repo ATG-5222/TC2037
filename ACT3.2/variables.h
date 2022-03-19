@@ -18,7 +18,6 @@ class variables {		//para identificar variables
 public:
 
 	public:
-	
 	int caso;
 	string v;
 	string resto;
