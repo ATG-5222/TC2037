@@ -33,7 +33,7 @@ public:
 		}
 	}
 	void caso1(char c){
-		if (alpha.find(c) != alph.end() || n.find(c) != n.end()){
+		if (alpha.find(c) != alpha.end() || n.find(c) != n.end()){
 			v+=c;
 		}
 		else {
