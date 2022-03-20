@@ -147,7 +147,7 @@ class numbers{	//Identificar tipos de numeros
             numero+=c;
             }	
             else{
-                cout << numero << "' = Numero real" << endl;
+                cout << numero << " = Numero real" << endl;
                 caso = -1;
                 resto += c;
             }		
@@ -172,10 +172,10 @@ class numbers{	//Identificar tipos de numeros
                 }
             }
             if (caso == 1){		//En caso de salto de linea
-                cout << "'" << numero << "' = Numero entero" << endl;
+                cout << numero << " = Numero entero" << endl;
             }
             if (caso == 4 || caso == 7){
-                cout << "'" << numero << "' = Numero real" << endl;
+                cout << numero << " = Numero real" << endl;
             }
             r = resto;
             resto = "";
@@ -227,7 +227,7 @@ public:
 		    }
 		}
 		if (caso != -1){
-			cout << "'" << v << "' = variable" << endl;
+			cout << v << " = Variable" << endl;
 		}
 		r = resto;
 		resto = "";
@@ -321,9 +321,11 @@ int main(int argc, char* argv[]) {
 	variables V;
 	signs S;
 
-    cout << "Porfavor ingrese el nombre del archivo: ";
-	cin >> file;
-
+    if (argc > 1){
+        string arg1(argv[1]);
+        file = arg1;
+    }
+ 
     if (argc != 2) {
     cout << "usage: " << argv[0] << " pathname\n";
     return -1;
