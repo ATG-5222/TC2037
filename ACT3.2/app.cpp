@@ -13,7 +13,7 @@ set<char> num = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 set<char> sign = {'+', '-', '=', '*', '/', '^', '(', ')','.'};
 
-class numbers{		//para identificar números enteros y decimales
+class numbers{	//Identificar tipos de numeros
 	
     public:
     
@@ -22,7 +22,7 @@ class numbers{		//para identificar números enteros y decimales
         string resto;
         string r;
 	
-        void caso0(char c){		//inicio
+        void caso0(char c){		//Inicio de la busqueda de numeros
             if(num.find(c) != num.end()){
                 caso = 1;
                 numero += c;
@@ -41,7 +41,7 @@ class numbers{		//para identificar números enteros y decimales
             }
         }
 
-        void caso1(char c){		//int
+        void caso1(char c){	//Numeros enteros
             if(num.find(c) != num.end()){
                 numero += c;
             }
@@ -56,11 +56,11 @@ class numbers{		//para identificar números enteros y decimales
             else{
                 caso = -1;
                 resto += c;
-                cout << "'" << numero << "' = número entero" << endl;
+                cout <<  numero << " = Numero entero" << endl;
             }
         }
 
-        void caso2(char c){	//signo
+        void caso2(char c){	//Deteccion de signo de suma o resta
             if(num.find(c) != num.end()){
                 numero += c;
                 caso = 1;
@@ -70,13 +70,13 @@ class numbers{		//para identificar números enteros y decimales
                 numero += c;
             }
             else {
-                if (numero == "+") {	//identificando signos de suma y resta
-                    cout << "'" << numero << "' = suma" << endl;
+                if (numero == "+") { //Detección de suma o resta
+                    cout << numero << " = Suma" << endl;
                     caso = -1;
                     resto+=c;
                 }
                 else if(numero == "-") {
-                    cout << "'" << numero << "' = resta" << endl;
+                    cout << numero << " = Resta" << endl;
                     caso = -1;
                     resto += c;
                 }
@@ -87,13 +87,13 @@ class numbers{		//para identificar números enteros y decimales
             }		
         }
 
-        void caso3(char c){		//punto
+        void caso3(char c){	//Detección del signo y numeros reales (flotantes)
             if(num.find(c) != num.end()){
                 numero += c;
                 caso = 4;
             }
             else if(numero.size() == 1){
-                cout << "'" << numero << "' = punto" << endl;
+                cout << numero << " = Punto" << endl;
             }
             else{
                 resto+=c;
@@ -101,7 +101,7 @@ class numbers{		//para identificar números enteros y decimales
             }
         }
 
-        void caso4(char c){		//número después del punto
+        void caso4(char c){	//Detección del número despues del punto
             if(num.find(c) != num.end()){
             numero += c;
             }
@@ -110,13 +110,13 @@ class numbers{		//para identificar números enteros y decimales
                 caso = 5;
             }
             else{
-                cout << "'" << numero << "' = número real" << endl;
+                cout << numero << " = Numero real" << endl;
                 caso = -1;
                 resto += c;
             }
         }
 
-        void caso5(char c){		//e, E
+        void caso5(char c){	//Detección del numero de Euler
             if(c == '+' || c == '-'){
                 caso = 6;
                 numero+=c;
@@ -127,35 +127,34 @@ class numbers{		//para identificar números enteros y decimales
             }		
             else {
                 caso = -1;
-                //resto+= c;
-                cout << "valor no reconocido" << endl;	//esto porque el exponencial no tiene un valor numérico.
+                cout << "valor no reconocido" << endl;	//Valor no expresado correctamente.
             }
         }
 
-        void caso6(char c){		//signo después de e,E
+        void caso6(char c){	//Detección del signo después del número de Euler
             if(num.find(c) != num.end()){
             numero+=c;
             caso = 7;
             }	
             else {
                 caso = -1;
-                //resto += c;
-                cout << "valor no reconocido" << endl; //esto porque el exponencial no tiene un valor numérico.
+                cout << "Valor no reconocido" << endl; // Exponencial sin valor númerico.
             }
         }
-        void caso7(char c){		//número después de e,E
+
+        void caso7(char c){	//Detección del número después del número de Euler
             if(num.find(c) != num.end()){
             numero+=c;
             }	
             else{
-                cout << "'" << numero << "' = número real" << endl;
+                cout << numero << "' = Numero real" << endl;
                 caso = -1;
                 resto += c;
             }		
 
         }
 
-        string casos(string input){
+        string casos(string input){ //Selección entre los distintos casoss
             char c;
             caso = 0;
             for (int i = 0; i < input.size(); i++){
@@ -172,11 +171,11 @@ class numbers{		//para identificar números enteros y decimales
                     case 7 : caso7(c); break;		        
                 }
             }
-            if (caso == 1){		//En caso de que se termine el renglón
-                cout << "'" << numero << "' = número entero" << endl;
+            if (caso == 1){		//En caso de salto de linea
+                cout << "'" << numero << "' = Numero entero" << endl;
             }
             if (caso == 4 || caso == 7){
-                cout << "'" << numero << "' = número real" << endl;
+                cout << "'" << numero << "' = Numero real" << endl;
             }
             r = resto;
             resto = "";
@@ -185,7 +184,7 @@ class numbers{		//para identificar números enteros y decimales
         };
 };
 
-class variables {		//para identificar variables
+class variables { //Identificación de variables
 
 public:
 
@@ -201,7 +200,7 @@ public:
 			v+=c;
 		}
 		else {
-			cout << "'" << c << "' = Valor no reconocido" << endl;
+			cout << c << " = Valor no reconocido" << endl;
 			resto +=c;
 			caso = -1;
 		}
@@ -212,7 +211,7 @@ public:
 		}
 		else {
 			caso = -1;
-			cout << "'" << v << "' = Variable" << endl;
+			cout << v << " = Variable" << endl;
 			resto +=c;
 		}
 	}
@@ -237,7 +236,7 @@ public:
 	}
 };
 
-class signs {
+class signs { //Identificación de signos y comentarios
 
 public:
 
@@ -248,23 +247,23 @@ public:
 
 	void caso0(char c){
 		if (c == '*'){
-			cout << "'" << c << "' = Multiplicación" << endl;
+			cout << c << " = Multiplicacion" << endl;
 			caso = -1;
 		}
 		else if (c == '^'){
-			cout << "'" << c << "' = Potencia" << endl;
+			cout << c << " = Potencia" << endl;
 			caso = -1;
 		}
 		else if (c == '='){
-			cout << "'" << c << "' = Asignación" << endl;
+			cout << c << " = Asignacion" << endl;
 			caso = -1;
 		}
 		else if (c == '('){
-			cout << "'" << c << "' = Paréntesis izquierdo" << endl;
+			cout << c << " = Parentesis izquierdo" << endl;
 			caso = -1;
 		}
 		else if (c == ')'){
-			cout << "'" << c << "' = Paréntesis derecho" << endl;
+			cout << c << " = Parentesis derecho" << endl;
 			caso = -1;
 		}					
 		else if (c == '/'){
@@ -279,7 +278,7 @@ public:
 			s+=c;
 		}
 		else {
-			cout << "'/' = División" << endl;
+			cout << "/ = Division" << endl;
 			caso = -1;
 			resto+=c;
 		}
@@ -287,8 +286,8 @@ public:
 
 	void caso2(char c){
 			s+=c;
-
 	}
+
 	string casos(string input){
 		char c;
 		caso = 0;
@@ -302,7 +301,7 @@ public:
 			}
 		}
 		if (caso == 2){
-			cout << "'" << s << "' = Comentario" << endl;
+			cout << s << " = Comentario" << endl;
 		}
 		string r = resto;
 		resto = "";
@@ -322,7 +321,7 @@ int main(int argc, char* argv[]) {
 	variables V;
 	signs S;
 
-    cout << "Porfavor ingrese el nombre del archivo" << endl;
+    cout << "Porfavor ingrese el nombre del archivo: ";
 	cin >> file;
 
     if (argc != 2) {
@@ -332,7 +331,6 @@ int main(int argc, char* argv[]) {
 
     d.open(file);
 	if (d.is_open()){
-        cout << "Hola" << endl;
 		while (getline(d, input)){
 			while (input != ""){
 				char c = input[0];
