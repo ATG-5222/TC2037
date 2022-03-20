@@ -322,6 +322,9 @@ int main(int argc, char* argv[]) {
 	variables V;
 	signs S;
 
+    cout << "Porfavor ingrese el nombre del archivo" << endl;
+	cin >> file;
+
     if (argc != 2) {
     cout << "usage: " << argv[0] << " pathname\n";
     return -1;
@@ -329,6 +332,7 @@ int main(int argc, char* argv[]) {
 
     d.open(file);
 	if (d.is_open()){
+        cout << "Hola" << endl;
 		while (getline(d, input)){
 			while (input != ""){
 				char c = input[0];
