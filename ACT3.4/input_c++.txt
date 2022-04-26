@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    // Esto es un comentario
+    cin >> input1;
+    if (input1 == text){
+        escribe <<"Impresión de texto dentro del if.\n";
+    }
+    else
+        cout << "Impresión de texto dentro del else.\n";
+
+    string palabra; // variable vacía de texto
+    int numero; // variable vacía de tipo entero
+
+    while (true) ){
+        cout << linea <<"\n";
+    }
+
+    return 0;
+}
