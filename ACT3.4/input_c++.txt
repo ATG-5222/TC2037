@@ -3,15 +3,16 @@ using namespace std;
 
 int main(){
     // Esto es un comentario
-    cin >> input1;
-    if (input1 == text){
+    cin >> input;
+    if (input == text){
         escribe <<"Impresión de texto dentro del if.\n";
     }
-    else
+    else{
         cout << "Impresión de texto dentro del else.\n";
+    }
 
     string palabra; // variable vacía de texto
-    int numero; // variable vacía de tipo entero
+    int numero = 5; // variable vacía de tipo entero
 
     while (true) ){
         cout << linea <<"\n";
