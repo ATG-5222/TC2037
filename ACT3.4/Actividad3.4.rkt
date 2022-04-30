@@ -1,6 +1,7 @@
 #lang racket
 
 ;Aldo Tena García - A01275222
+;Renato Sebastían Ramirez Calva - A01275222
 ;Actividad Integradora 3.4 Resaltador de sintaxis de C++
 
 ;Libreria que se utiliza para leer txt
@@ -11,14 +12,14 @@
   '("a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "ñ" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z")
 )
 
-;Lista con los números del 1 al 9
+;Lista con los números del 0 al 9
 (define numeros
   '("1" "2" "3" "4" "5" "6" "7" "8" "9" "0")
 )
 
 ;Lista con operadores de C++
 (define operadores
-  '("[" "]" "{" "}" "(" ")" ";" "," ":" "&" "|" "=" "<" ">" "%" "*" "/" "+" "-")
+  '("[" "]" "{" "}" "(" ")" ";" "," ":" "&" "|" "=" "<" ">" "%" "*" "/" "+" "-" "!")
 )
 
 ;Lista con palabras reservadas de C++
@@ -28,10 +29,10 @@
 
 ;Lista con los tipos de datos
 (define tipos_datos
-  '("int" "long" "float" "double" "bool" "char" "string" "void")
+  '("int" "long" "float" "double" "bool" "char" "string" "void" "NULL")
 )
 
-;Lista con las librerias de C++
+;Lista con la libreria de C++
 (define libreria_c++
   '("#include")
 )
@@ -58,9 +59,8 @@
 "<link rel='stylesheet' href='styles.css'>" "\n"
 "<head>" "\n"
 "<html>" "\n"
-"<!DOCTYPE html>")
+"<!DOCTYPE html5>")
 )
-
 
 ;Funcion que compara los caracteres de la lista enviada con los caracteres de las listas previamente definidas
 (define buscar_en_lista
@@ -156,7 +156,7 @@
    )
 )
 
-;Funcion para identificar si recivimos un archivo de C++
+;Funcion para identificar un archivo de C++
 (define identificar_archivo
   (lambda (archivo tipo_archivo)
   (cond
@@ -166,7 +166,7 @@
  )   
 )
 
-;Funcion que recibe la ruta del archivo a leer y el tipo de documento que es en un string
+;Funcion que recibe la ruta del archivo a leer y el tipo de documento
 (define input
   (lambda (archivo tipo_archivo)
     (identificar_archivo archivo tipo_archivo)
