@@ -30,7 +30,7 @@ const int STATE_I = 8;
 #include "PalabraReservada.hpp"
 #include "utils.h"
 
-#define THREADS 2
+#define THREADS 4
 
 using namespace std;
 
@@ -246,5 +246,5 @@ int main(int argc, char* argv[]) {
 	parallel = stop_timer();
 	cout << "\tTiempo paralelo = " << parallel<<endl;
     
-	cout << "Speed up = "<< (float) seq / (float) parallel << "%"<<endl;
+	cout << "Speed up = "<< (float) seq / (float) parallel*100 << "%"<<endl;
 }
