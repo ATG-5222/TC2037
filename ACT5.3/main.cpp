@@ -30,7 +30,7 @@ const int STATE_I = 8;
 #include "PalabraReservada.hpp"
 #include "utils.h"
 
-#define THREADS 1
+#define THREADS 2
 
 using namespace std;
 
@@ -186,8 +186,19 @@ int main(int argc, char* argv[]) {
 	writeFilePar.open("paralelo.html");
 	writeFilePar << "";
 
-	cout << "Nombre del archivo: ";
-	cin >> input;
+
+	if (argc > 1){
+        string arg1(argv[1]);
+        input = arg1;
+    }
+
+    if (argc != 2) {
+		cout << "usage: " << argv[0] << " pathname\n";
+		return -1;
+    }
+
+	//cout << "Nombre del archivo: ";
+	//cin >> input;
 
 	ifstream file;
 	file.open(input);
