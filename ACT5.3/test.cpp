@@ -12,6 +12,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
+
 const int STATE_A = 0;
 const int STATE_B = 1;
 const int STATE_C = 2;
@@ -35,10 +36,10 @@ const int STATE_I = 8;
 using namespace std;
 
 string writeTag(string type, string text) {
-	return "<span class='" + type + "'>" + text + "</span>";
+	return "<span class='" + type + "'>" +text+ "</span>";
 }
 
-void* lexerAritmetico(string archivo, int start, int limit, char type) {
+void* lexerAritmetico(string archivo, int start, int limit) {
 	string c, str, substring, textoHTML;
 	Comentario comentario;
 	String tipoString;
@@ -48,12 +49,7 @@ void* lexerAritmetico(string archivo, int start, int limit, char type) {
 	PalabraReservada palabraReservada;
 
 	ofstream writeFile;
-
-	if (type == 's')
-		writeFile.open("secuencial.html");
-	else 
-		writeFile.open("paralelo.html",ios_base::app);
-
+	writeFile.open("index.html",ios_base::app);
 	writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 3.4 Paulina</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
 
 	ifstream readFile;
@@ -62,7 +58,7 @@ void* lexerAritmetico(string archivo, int start, int limit, char type) {
 	int cont = 0;
 	while (getline(readFile, str))
 	{
-		if(cont >= start && cont <= limit){
+		if(cont >= start and cont <= limit){
 			writeFile <<  "<br>";
 			for (int i = 0; i < str.length(); i++)
 			{
@@ -160,19 +156,19 @@ void* lexerAritmetico(string archivo, int start, int limit, char type) {
 	return (void*) 0;
 }
 
-/*************************************************************
-* Concurrent implementation
-*************************************************************/
+// /*************************************************************
+// * Concurrent implementation
+// *************************************************************/
 typedef struct{
-	int start, limit;
-	string file;
+  int start, limit;
+  string file;
 } Block;
 
 
 void* task(void* param){
     Block *block;
     block = (Block *) param;
-    return ((void*)lexerAritmetico(block->file, block->start, block->limit,'p'));
+    return ((void*)lexerAritmetico(block->file, block->start, block->limit));
 }
 
 
@@ -181,10 +177,7 @@ int main(int argc, char* argv[]) {
 	int numberLines;
 	long int results[THREADS];
 	double seq, parallel;
-	ofstream writeFilePar;
-
-	writeFilePar.open("paralelo.html");
-	writeFilePar << "";
+	
 
 	cout << "Nombre del archivo: ";
 	cin >> input;
@@ -195,19 +188,19 @@ int main(int argc, char* argv[]) {
 		++numberLines;
 	}
 
-	/*************************************************************
-	* Implementacion Secuencial
-	*************************************************************/
+	// /*************************************************************
+	// * Implementacion Secuencial
+	// *************************************************************/
 	cout << "Running sequential code..." << endl;
 	start_timer();
-	lexerAritmetico(input,0,numberLines-1,'s');
+	lexerAritmetico(input,0,numberLines-1);
 	seq = stop_timer();
 	printf("\tTiempo en secuencial = %lf \n",seq);
 
 	
-	/*************************************************************
-	* Implementacion en Paralelo
-	*************************************************************/
+	// /*************************************************************
+	// * Implementacion en Paralelo
+	// *************************************************************/
 	cout << "Running parallel code..." << endl;
 	
 	Block blocks[THREADS];
