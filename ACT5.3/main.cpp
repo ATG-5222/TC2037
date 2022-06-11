@@ -52,7 +52,7 @@ void* lexerAritmetico(string archivo, int start, int limit, char type) {
 	if (type == 's')
 		writeFile.open("secuencial.html");
 	else 
-		writeFile.open("paralelo.html",ios_base::app);
+		writeFile.open("paralelo.html");
 
 	writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 3.4 Paulina</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
 
@@ -235,5 +235,5 @@ int main(int argc, char* argv[]) {
 	parallel = stop_timer();
 	cout << "\tTiempo paralelo = " << parallel<<endl;
     
-	cout << "Speed up = "<< (float) seq / (float) parallel *100<< "%"<<endl;
+	cout << "Speed up = "<< (float) seq / (float) parallel << "%"<<endl;
 }

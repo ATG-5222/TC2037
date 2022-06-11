@@ -31,7 +31,7 @@ const int STATE_I = 8;
 #include "PalabraReservada.hpp"
 #include "utils.h"
 
-#define THREADS 1
+#define THREADS 8
 
 using namespace std;
 
