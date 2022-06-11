@@ -30,7 +30,7 @@ const int STATE_I = 8;
 #include "PalabraReservada.hpp"
 #include "utils.h"
 
-#define THREADS 8
+#define THREADS 2
 
 using namespace std;
 
@@ -54,7 +54,7 @@ void* lexerAritmetico(string archivo, int start, int limit, char type) {
 	else 
 		writeFile.open("paralelo.html");
 
-	writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 3.4 Paulina</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
+	writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 5.3</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
 
 	ifstream readFile;
 
@@ -203,7 +203,7 @@ int main(int argc, char* argv[]) {
 	ifstream file;
 	file.open(input);
 	while (getline(file, line)){
-		++numberLines;
+		numberLines++;
 	}
 
 	/*************************************************************
