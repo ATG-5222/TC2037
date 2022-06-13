@@ -49,20 +49,20 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 
 	ofstream writeFile;
 
-	cout << "Lexer con el bloque: " << num << " de tipo: " << type << endl;
+	//cout << "Lexer con el bloque: " << num << " de tipo: " << type << endl;
 
 	if (type == 's'){
 		writeFile.open("secuencial.html");
-		cout << "Detectado" << endl;
+		cout << "Secuencial detectado" << endl;
 	}
 	else if (type == 'p'){
 		if(num == 1){
 			writeFile.open("paralelo1.html");
-			cout << "Detectado" << endl;
+			cout << "Paralelo 1 detectado" << endl;
 		}
 		else if(num == 2){
 			writeFile.open("paralelo2.html");
-			cout << "Detectado" << endl;
+			cout << "Paralelo 2 detectado" << endl;
 		}
 	}
 
@@ -184,27 +184,27 @@ typedef struct{
 void* task(void* param){
     Block *block;
     block = (Block *) param;
-	cout << "Trabajando con el thread: " << block->id << endl;
-	cout << "Verificacion de hilos de trabajo" << endl;
-    return ((void*)lexerAritmetico(block->file, block->start, block->limit,'p',block->id));
+	//cout << "Trabajando con el thread: " << block->id << endl;
+	//cout << "Verificacion de hilos de trabajo" << endl;
+	for (int i = 0; i < 2; i++) {
+		cout << "id: " << block[i].id << endl;
+		lexerAritmetico(block[i].file, block[i].start, block[i].limit,'p',block[i].id);
+	}
+    //return ((void*)lexerAritmetico(block->file, block->start, block->limit,'p',block->id));
 }
 
 
 int main(int argc, char* argv[]) {
-	string input1, line, result = "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 3.4 Paulina</title> <link rel='stylesheet' href='styles.css'> </head> <body>", text = "";
+	string input1, input2, line, result = "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 3.4 Paulina</title> <link rel='stylesheet' href='styles.css'> </head> <body>", text = "";
 	int numberLines;
-	long int results[THREADS];
 	double seq, parallel;
-	ofstream writeFilePar;
-	ofstream writeFilePar2;
+	ofstream writeFilePar, writeFilePar2;
 
 	writeFilePar.open("paralelo1.html");
 	writeFilePar << "";
 
 	writeFilePar2.open("paralelo2.html");
 	writeFilePar2 << "";
-
-	string input2;
 
 	if (argc > 1){
         string arg1(argv[1]);
@@ -214,14 +214,6 @@ int main(int argc, char* argv[]) {
     }
 
 	string inputs[] = {input1,input2};
-
-    /*if (argc != 2) {
-		cout << "usage: " << argv[0] << " pathname\n";
-		return -1;
-    }*/
-
-	//cout << "Nombre del archivo: ";
-	//cin >> input;
 
 	ifstream file;
 	file.open(input1);
@@ -257,6 +249,12 @@ int main(int argc, char* argv[]) {
 		blocks[i].file = inputs[i];
 	}
 
+	cout << "Bloque: " << blocks[0].id << endl;
+	cout << "Archivo contenido en el bloque: " << blocks[0].file << endl;
+	cout << "Bloque: " << blocks[1].id << endl;
+	cout << "Archivo contenido en el bloque: " << blocks[1].file << endl;
+	cout << "------------------" << endl;
+
 	start_timer();
 	for (int i = 0; i < THREADS; i++){
 		pthread_create(&threads[i],NULL, task,(void*) &blocks[i]);
@@ -266,6 +264,6 @@ int main(int argc, char* argv[]) {
 	}
 	parallel = stop_timer();
 
-	cout << "\tTiempo paralelo = " << parallel<<endl;
-	cout << "Speed up = "<< (float) seq / (float) parallel*100 << "%"<<endl;
+	cout << "\tTiempo paralelo = " << parallel << endl;
+	cout << "Speed up = " << (float) seq / (float) parallel*100 << "%" << endl;
 }
