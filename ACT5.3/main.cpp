@@ -188,15 +188,16 @@ void* task(void* param){
     block = (Block *) param;
 	//cout << "Trabajando con el thread: " << block->id << endl;
 	//cout << "Verificacion de hilos de trabajo" << endl;
-	for (int i = 0; i < 2; i++) {
+	/*for (int i = 0; i < 2; i++) {
 		cout << "id: " << block[i].id << endl;
 		lexerAritmetico(block[i].file, block[i].start, block[i].limit,'p',block[i].id);
-	}
+	}*/
 	/*
 	for (int i = block->start; i < block->end; i++) {
 		lexerAritmetico(block->files[i], 'p', block[i].id);
 	}
 	*/
+	lexerAritmetico(block->file,block->start,(block->limit)-1,'p',block->id);
     //return ((void*)lexerAritmetico(block->file, block->start, block->limit,'p',block->id));
 }
 
@@ -244,12 +245,12 @@ int main(int argc, char* argv[]) {
 	
 	Block blocks[THREADS];
 	pthread_t threads[THREADS];
-	long jump = numberLines / THREADS; //Aqui inicia el comentario: size = (argc - 1) / THREADS; 
+	/*long jump = numberLines / THREADS; //Aqui inicia el comentario: size = (argc - 1) / THREADS; */
 
 	for (int i = 0; i < THREADS; i++){
 		blocks[i].id = i;
-		blocks[i].start = i * jump;
-		blocks[i].limit = (i + 1) * jump;
+		blocks[i].start = 0;
+		blocks[i].limit = NL[i];
 		blocks[i].file = argv[i+1];
 	}
 
