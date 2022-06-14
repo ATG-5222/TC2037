@@ -2,7 +2,6 @@
 #include <string>
 #include <fstream>
 #include <pthread.h>
-#include <iostream>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +10,6 @@
 #include <time.h>
 #include <sys/time.h>
 #include <sys/types.h>
-
-//Hola
 
 const int STATE_A = 0;
 const int STATE_B = 1;
@@ -40,10 +37,10 @@ string writeTag(string type, string text) {
 	return "<span class='" + type + "'>" + text + "</span>";
 }
 
-void* lexerAritmetico(string archivo, int start, int limit, char type, int num) {
+void* lexerAritmetico(string archivo, char type, int idblock) {
 	string c, str, substring, textoHTML;
 	Comentario comentario;
-	String tipoString;
+	String tipoString,input;
 	Entero entero;
 	Reales real;
 	Variable variable;
@@ -58,11 +55,11 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 		cout << "Secuencial detectado" << endl;
 	}
 	else if (type == 'p'){
-		if(num == 1){
+		if(idblock == 0){
 			writeFile.open("paralelo1.html");
 			cout << "Paralelo 1 detectado" << endl;
 		}
-		else if(num == 2){
+		else if(idblock == 1){
 			writeFile.open("paralelo2.html");
 			cout << "Paralelo 2 detectado" << endl;
 		}
@@ -71,9 +68,112 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 	writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 5.3</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
 
 	ifstream readFile;
-
 	readFile.open(archivo);
-	int cont = 0;
+
+	if (readFile.is_open()){
+		cout << "Entrando al if 1." << endl;
+		while (!readFile.eof()){
+			cout << "Entrando al while 1." << endl;
+			while (getline(readFile, archivo)){
+				writeFile <<  "<br>";
+				while (archivo != ""){
+					c = archivo[0];
+					//c = str[i];
+					//substring = str.substr(c);
+					if (c == " ") {
+						writeFile<< " ";
+					}
+					else if (c == "\t") {
+						writeFile<< "&nbsp;&nbsp;&nbsp;&nbsp";
+					}
+					else if (tipoString.processEntry(substring) != -1) {
+						writeFile<< writeTag("string", substring.substr(0, tipoString.processEntry(substring) + 1));
+						c += tipoString.processEntry(substring);
+					}
+					else if (comentario.processEntry(substring) != -1) {
+						writeFile<< writeTag("comentario",substring);
+						c += comentario.processEntry(substring);
+					}
+					else if (palabraReservada.processEntry(substring) != -1) {
+						writeFile<< writeTag("palabra-reservada", substring.substr(0, palabraReservada.processEntry(substring) + 1));
+						c += palabraReservada.processEntry(substring);
+					}
+					else if (variable.processEntry(substring) != -1) {
+						writeFile<< writeTag("variable", substring.substr(0, variable.processEntry(substring)+1));
+						c += variable.processEntry(substring);
+					}
+					else if (real.processEntry(substring) != -1) {
+						writeFile<< writeTag("real", substring.substr(0, real.processEntry(substring)+1));
+						c += real.processEntry(substring);
+					}
+					else if (entero.processEntry(substring) != -1) {
+						writeFile<< writeTag("numero", substring.substr(0, entero.processEntry(substring) + 1));
+					}
+					else if (c == "=") {
+						writeFile<< writeTag("operadores",c);
+					}
+					else if (c == "+"){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if (c == "*") {
+						writeFile<< writeTag("operadores",c);
+					}
+					else if (c == "/"){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if (c == "^") {
+						writeFile<< writeTag("operadores",c);
+					}
+					/*else if ( c == "-" && str[i+1]==' ' ){
+						writeFile<< writeTag("operadores", c);
+					}*/
+					else if ( c == "(" ){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if ( c == ")" ){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if (c == "'"){
+						writeFile<< writeTag("operadores", c);
+					}
+					else if ( c == "," ){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if ( c == "#" ){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if ( c == ";" ){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if (c == "{"){
+						writeFile<< writeTag("operadores", c);
+					}
+					else if ( c == "}" ){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if (c == "["){
+						writeFile<< writeTag("operadores", c);
+					}
+					else if ( c == "]" ){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if ( c == "<" ){
+						writeFile<< writeTag("operadores",c);
+					}
+					else if (c == ">"){
+						writeFile<< writeTag("operadores", c);
+					}
+					else continue;
+				}
+			}
+		}
+	}
+	return (void*) 0;
+}
+
+
+
+/*
 	while (getline(readFile, str))
 	{
 		if(cont >= start && cont <= limit){
@@ -169,10 +269,8 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 				else continue;
 			}
 		}
-		cont++;
-	}
-	return (void*) 0;
-}
+	}*/
+
 
 /*************************************************************
 * Concurrent implementation
@@ -188,21 +286,19 @@ void* task(void* param){
     block = (Block *) param;
 	//cout << "Trabajando con el thread: " << block->id << endl;
 	//cout << "Verificacion de hilos de trabajo" << endl;
-	for (int i = 0; i < 2; i++) {
+	/*for (int i = 0; i < 2; i++) {
 		cout << "id: " << block[i].id << endl;
 		lexerAritmetico(block[i].file, block[i].start, block[i].limit,'p',block[i].id);
 	}
-	/*
-	for (int i = block->start; i < block->end; i++) {
-		lexerAritmetico(block->files[i], 'p', block[i].id);
-	}
-	*/
+	for (int i = block->start; i < block->limit; i++) {
+		lexerAritmetico(block->file[i], 'p', block->id[i]);
+	}*/
     //return ((void*)lexerAritmetico(block->file, block->start, block->limit,'p',block->id));
 }
 
 
 int main(int argc, char* argv[]) {
-	string input1, input2, line, result = "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 3.4 Paulina</title> <link rel='stylesheet' href='styles.css'> </head> <body>", text = "";
+	string line, result = "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 3.4 Paulina</title> <link rel='stylesheet' href='styles.css'> </head> <body>", text = "";
 	int numberLines;
 	double seq, parallel;
 	ofstream writeFilePar, writeFilePar2;
@@ -213,6 +309,7 @@ int main(int argc, char* argv[]) {
 	writeFilePar2.open("paralelo2.html");
 	writeFilePar2 << "";
 
+/*
 	if (argc > 1){
         string arg1(argv[1]);
         input1 = arg1;
@@ -222,8 +319,12 @@ int main(int argc, char* argv[]) {
 
 	string inputs[] = {input1,input2};
 
+	for (int i = 0; i < 3; i++) {
+		cout << "argv: " << argv[i] << endl;
+	}*/
+
 	ifstream file;
-	file.open(input1);
+	file.open(argv[1]);
 	while (getline(file, line)){
 		numberLines++;
 	}
@@ -234,11 +335,11 @@ int main(int argc, char* argv[]) {
 	cout << endl;
 	cout << "Running sequential code..." << endl;
 	start_timer();
-	lexerAritmetico(input1,0,numberLines-1,'s',1);
+	cout << argv[1] << endl;
+	lexerAritmetico(argv[1],'s',1);
 	seq = stop_timer();
 	printf("\tTiempo en secuencial = %lf \n",seq);
 	cout << endl;
-
 
 	/*************************************************************
 	* Implementacion en Paralelo
@@ -247,27 +348,32 @@ int main(int argc, char* argv[]) {
 	
 	Block blocks[THREADS];
 	pthread_t threads[THREADS];
-	long jump = numberLines / THREADS; // size = (argc - 1) / THREADS; 
+	//long jump = numberLines / THREADS; // size = (argc - 1) / THREADS; 
 
+	long size = (argc - 1) / THREADS; 
+	
+	/*
 	for (int i = 0; i < THREADS; i++){
 		blocks[i].id = i;
 		blocks[i].start = i * jump;
 		blocks[i].limit = (i + 1) * jump;
 		blocks[i].file = inputs[i];
-	}
+	}*/
 
-	/*
 	for (int i = 0; i < THREADS; i++){
 		blocks[i].id = i;
 		blocks[i].start = (i * size) + 1;
 		blocks[i].limit = (i != THREADS)? ((i + 1) * size) + 1 : argc;
-		blocks[i].files = argv;
+		blocks[i].file = argv[i+1];
 	}
-	*/
 
 	cout << "Bloque: " << blocks[0].id << endl;
+	cout << "Start contenido en el bloque: " << blocks[0].start << endl;
+	cout << "Limit contenido en el bloque: " << blocks[0].file << endl;
 	cout << "Archivo contenido en el bloque: " << blocks[0].file << endl;
 	cout << "Bloque: " << blocks[1].id << endl;
+	cout << "Start contenido en el bloque: " << blocks[1].start << endl;
+	cout << "Limit contenido en el bloque: " << blocks[1].file << endl;
 	cout << "Archivo contenido en el bloque: " << blocks[1].file << endl;
 	cout << "------------------" << endl;
 
