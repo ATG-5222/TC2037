@@ -120,7 +120,7 @@ void signs::c1(char c){
 				resto+=c;
 		}
 
-}
+} //Hola
 
 void signs::c2(char c){
 		s+=c;
