@@ -14,6 +14,8 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
+#define THREADS 2
+
 using namespace std;
 
 //Actividad 5.3
@@ -350,6 +352,21 @@ string variables::casos(string input){
 
 void* lexerAritmetico(string file) {
 
+    if (type == 's'){
+        writeFile.open("secuencial.html");
+        cout << "Secuencial detectado" << endl;
+	}
+	else if (type == 'p'){
+		if(idblock == 0){
+			writeFile.open("paralelo1.html");
+			cout << "Paralelo 1 detectado" << endl;
+		}
+		else if(idblock == 1){
+			writeFile.open("paralelo2.html");
+			cout << "Paralelo 2 detectado" << endl;
+		}
+	}
+
     ifstream d;
 	string input;
 	string res;
@@ -383,20 +400,21 @@ void* lexerAritmetico(string file) {
 	}
 }
 
+typedef struct{
+	int start, limit,id;
+	string file;
+} Block;
 
 int main(int argc, char* argv[]) {
 
     double seq, parallel;
+    ofstream writeFilePar, writeFilePar2;
 
-    if (argc > 1){
-        string arg1(argv[1]);
-        string file = arg1;
-    }
+	writeFilePar.open("paralelo1.html");
+	writeFilePar << "";
 
-    if (argc != 2) {
-    cout << "usage: " << argv[0] << " pathname\n";
-    return -1;
-    }
+	writeFilePar2.open("paralelo2.html");
+	writeFilePar2 << "";
 
     /*************************************************************
 	* Implementacion Secuencial
@@ -408,6 +426,53 @@ int main(int argc, char* argv[]) {
 	printf("\tTiempo en secuencial = %lf \n",seq);
 	cout << endl;
 
-    
+	/*************************************************************
+	* Implementacion en Paralelo
+	*************************************************************/
+	cout << "Running parallel code..." << endl;
+	
+	Block blocks[THREADS];
+	pthread_t threads[THREADS];
+	//long jump = numberLines / THREADS; // size = (argc - 1) / THREADS; 
+
+	long size = (argc - 1) / THREADS; 
+	
+	/*
+	for (int i = 0; i < THREADS; i++){
+		blocks[i].id = i;
+		blocks[i].start = i * jump;
+		blocks[i].limit = (i + 1) * jump;
+		blocks[i].file = inputs[i];
+	}*/
+
+	for (int i = 0; i < THREADS; i++){
+		blocks[i].id = i;
+		blocks[i].start = (i * size) + 1;
+		blocks[i].limit = (i != THREADS)? ((i + 1) * size) + 1 : argc;
+		blocks[i].file = argv[i+1];
+	}
+
+	cout << "Bloque: " << blocks[0].id << endl;
+	cout << "Start contenido en el bloque: " << blocks[0].start << endl;
+	cout << "Limit contenido en el bloque: " << blocks[0].file << endl;
+	cout << "Archivo contenido en el bloque: " << blocks[0].file << endl;
+	cout << "Bloque: " << blocks[1].id << endl;
+	cout << "Start contenido en el bloque: " << blocks[1].start << endl;
+	cout << "Limit contenido en el bloque: " << blocks[1].file << endl;
+	cout << "Archivo contenido en el bloque: " << blocks[1].file << endl;
+	cout << "------------------" << endl;
+
+	start_timer();
+	for (int i = 0; i < THREADS; i++){
+		pthread_create(&threads[i],NULL, task,(void*) &blocks[i]);
+	}
+	for (int i = 0; i < THREADS; i++){
+		pthread_join(threads[i], NULL);
+	}
+	parallel = stop_timer();
+
+	cout << "\tTiempo paralelo = " << parallel << endl;
+	cout << "Speed up = " << (float) seq / (float) parallel*100 << "%" << endl;
+
 	return 0;
 }
