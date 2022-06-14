@@ -12,8 +12,6 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-//Hola
-
 const int STATE_A = 0;
 const int STATE_B = 1;
 const int STATE_C = 2;
@@ -51,27 +49,27 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 
 	ofstream writeFile;
 
-	//cout << "Lexer con el bloque: " << num << " de tipo: " << type << endl;
+	cout << "Lexer con el bloque: " << num << " de tipo: " << type << endl;
 
 	if (type == 's'){
 		writeFile.open("secuencial.html");
 		cout << "Secuencial detectado" << endl;
+		writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 5.3 - Secuencial</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
 	}
 	else if (type == 'p'){
-		if(num == 1){
+		if(num == 0){
 			writeFile.open("paralelo1.html");
 			cout << "Paralelo 1 detectado" << endl;
+			writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 5.3 - Paralelo 1</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
 		}
-		else if(num == 2){
+		else if(num == 1){
 			writeFile.open("paralelo2.html");
 			cout << "Paralelo 2 detectado" << endl;
+			writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 5.3 - Paralelo 2</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
 		}
 	}
 
-	writeFile << "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 5.3</title> <link rel='stylesheet' href='styles.css'> </head> <body>";
-
 	ifstream readFile;
-
 	readFile.open(archivo);
 	int cont = 0;
 	while (getline(readFile, str))
@@ -188,23 +186,18 @@ void* task(void* param){
     block = (Block *) param;
 	//cout << "Trabajando con el thread: " << block->id << endl;
 	//cout << "Verificacion de hilos de trabajo" << endl;
-	/*for (int i = 0; i < 2; i++) {
-		cout << "id: " << block[i].id << endl;
-		lexerAritmetico(block[i].file, block[i].start, block[i].limit,'p',block[i].id);
-	}*/
 	/*
 	for (int i = block->start; i < block->end; i++) {
 		lexerAritmetico(block->files[i], 'p', block[i].id);
 	}
 	*/
 	lexerAritmetico(block->file,block->start,(block->limit)-1,'p',block->id);
-    //return ((void*)lexerAritmetico(block->file, block->start, block->limit,'p',block->id));
 }
 
 
 int main(int argc, char* argv[]) {
 
-	string line, result = "<!DOCTYPE html> <html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1.0'> <title>Actividad 3.4 Paulina</title> <link rel='stylesheet' href='styles.css'> </head> <body>", text = "";
+	string line, text = "";
 	int numberLines,numberLines2;
 	double seq, parallel;
 	ofstream writeFilePar, writeFilePar2;
@@ -245,7 +238,6 @@ int main(int argc, char* argv[]) {
 	
 	Block blocks[THREADS];
 	pthread_t threads[THREADS];
-	/*long jump = numberLines / THREADS; //Aqui inicia el comentario: size = (argc - 1) / THREADS; */
 
 	for (int i = 0; i < THREADS; i++){
 		blocks[i].id = i;
@@ -264,14 +256,18 @@ int main(int argc, char* argv[]) {
 	*/
 
 	cout << "Bloque: " << blocks[0].id << endl;
+	cout << "Start: " << blocks[0].start << endl;
+	cout << "Limit: " << blocks[0].limit << endl;
 	cout << "Archivo contenido en el bloque: " << blocks[0].file << endl;
 	cout << "Bloque: " << blocks[1].id << endl;
+	cout << "Start: " << blocks[1].start << endl;
+	cout << "Limit: " << blocks[1].limit << endl;
 	cout << "Archivo contenido en el bloque: " << blocks[1].file << endl;
 	cout << "------------------" << endl;
 
 	start_timer();
 	for (int i = 0; i < THREADS; i++){
-		pthread_create(&threads[i],NULL, task,(void*) &blocks[i]);
+		pthread_create(&threads[i],NULL,task,(void*) &blocks[i]);
 	}
 	for (int i = 0; i < THREADS; i++){
 		pthread_join(threads[i], NULL);
