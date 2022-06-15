@@ -1,8 +1,70 @@
-miVar = (12 * 23 + (14.0e10 ^ 2))
+//Aldo Tena García
+//A01275222
+// g++ .\singlethread.cpp -o singlethread para compilar
 
-(    (   12 - 12 + 14 * 2 / 18 ^5))
+#include <iostream>
+#include <math.h>
+#include <ctime>
 
-// OTRO COMETARIO !!!!!
+using namespace std;
 
-a123 = b3456    - 72
-e
+//Función para verificar si el número es primo
+bool verificar_primo(int num) {
+	//Si el número es menor a 2 devuelve falso, ya que no es un número primo
+	if (num < 2) { 
+		return false; 
+	}
+    //Si el número es dos o más, revisara si es primo
+	else {
+    //Ciclo desde 2 hasta el cuadrado del numero
+		for (int i = 2; i <= sqrt(num); i++){ 
+      //Si el numero es divisible de manera exacta entre j, no es primo, así que devuelve falso
+			if (num%i == 0) {
+				return false; 
+			}		
+		} 
+    //Termina el ciclo, así que el número es primo y devuelve verdadero
+		return true;
+	}
+}
+
+int main(int argc, char* argv[]) {
+
+	//Variable para guardar la suma de los números primos y los tiempos de ejecucion
+	long long suma = 0;
+	unsigned t0, t1; 
+	int contador = 0;
+
+	cout << "Actividad 5.2: Programacion paralela y concurrente." <<endl;
+	cout << "Version secuencial" <<endl;
+	cout << "Suma de numeros primos menores a 5,000,000\n" << endl;
+
+	//Guarda el tiempo en que se inicio el programa
+    t0 = clock();
+
+    //ciclo para recorrer todos los número menores a 5000000
+    for(long long i = 0; i < 5000000; i++) {
+        //Verifica si el número es primo en la función, si lo es, se va sumando a la variable "suma"
+        if (verificar_primo(i)) {
+            suma += i;
+			contador += 1;
+        }
+    }
+
+	//Guarda el tiempo en que se acabó el programa
+	t1 = clock();
+
+	//Imprime el resultado de la suma total
+	cout << suma << endl;
+	cout << contador << " numeros primos sumados." << endl;
+
+    //Calcula el tiempo de ejecución del programa
+	double time = (double(t1 - t0)/CLOCKS_PER_SEC);
+
+    //Imprime el tiempo de ejecución
+	cout << "Tiempo de ejecucion: " << time << " s";
+
+	return 0;
+}
+
+.

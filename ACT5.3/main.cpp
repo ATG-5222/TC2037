@@ -49,8 +49,6 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 
 	ofstream writeFile;
 
-	cout << "Lexer con el bloque: " << num << " de tipo: " << type << endl;
-
 	if (type == 's'){
 		writeFile.open("secuencial.html");
 		cout << "Secuencial detectado" << endl;
@@ -127,6 +125,9 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 				else if ( c == "-" && str[i+1]==' ' ){
 					writeFile<< writeTag("operadores", c);
 				}
+				else if ( c == "%" ){
+					writeFile<< writeTag("operadores",c);
+				}
 				else if ( c == "(" ){
 					writeFile<< writeTag("operadores",c);
 				}
@@ -176,45 +177,37 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 * Concurrent implementation
 *************************************************************/
 typedef struct{
-	int start, limit,id;
+	int start=0, limit,id;
 	string file;
 } Block;
 
 
-void* task(void* param){
+void* lexer_paralelo(void* param){
     Block *block;
     block = (Block *) param;
-	//cout << "Trabajando con el thread: " << block->id << endl;
-	//cout << "Verificacion de hilos de trabajo" << endl;
-	/*
-	for (int i = block->start; i < block->end; i++) {
-		lexerAritmetico(block->files[i], 'p', block[i].id);
-	}
-	*/
-	lexerAritmetico(block->file,block->start,(block->limit)-1,'p',block->id);
+	lexerAritmetico(block->file,block->start,block->limit,'p',block->id);
 }
-
 
 int main(int argc, char* argv[]) {
 
-	string line, text = "";
+	string line,line2;
 	int numberLines,numberLines2;
 	double seq, parallel;
 	ofstream writeFilePar, writeFilePar2;
+	ifstream file,file2;
+	unsigned t0,t1,t2,t3;
 
 	writeFilePar.open("paralelo1.html");
 	writeFilePar << "";
 	writeFilePar2.open("paralelo2.html");
 	writeFilePar2 << "";
 
-	ifstream file;
 	file.open(argv[1]);
-	while (getline(file, line)){
+	while(getline(file, line)){
 		numberLines++;
 	}
-	ifstream file2;
 	file2.open(argv[2]);
-	while (getline(file2, line)){
+	while(getline(file2, line2)){
 		numberLines2++;
 	}
 	int NL[] = {numberLines,numberLines2};
@@ -224,10 +217,11 @@ int main(int argc, char* argv[]) {
 	*************************************************************/
 	cout << endl;
 	cout << "Running sequential code..." << endl;
-	start_timer();
-	lexerAritmetico(argv[1],0,NL[0]-1,'s',1);
-	seq = stop_timer();
-	printf("\tTiempo en secuencial = %lf \n",seq);
+	t0 = clock();
+	lexerAritmetico(argv[1],0,NL[0],'s',1);
+	t1 = clock();
+	double time_secuencial = (double(t1 - t0)/CLOCKS_PER_SEC);
+	printf("\tTiempo en secuencial = %lf \n",time_secuencial);
 	cout << endl;
 
 
@@ -241,7 +235,6 @@ int main(int argc, char* argv[]) {
 
 	for (int i = 0; i < THREADS; i++){
 		blocks[i].id = i;
-		blocks[i].start = 0;
 		blocks[i].limit = NL[i];
 		blocks[i].file = argv[i+1];
 	}
@@ -265,15 +258,16 @@ int main(int argc, char* argv[]) {
 	cout << "Archivo contenido en el bloque: " << blocks[1].file << endl;
 	cout << "------------------" << endl;
 
-	start_timer();
+	t2 = clock();
 	for (int i = 0; i < THREADS; i++){
-		pthread_create(&threads[i],NULL,task,(void*) &blocks[i]);
+		pthread_create(&threads[i],NULL,lexer_paralelo,(void*) &blocks[i]);
 	}
 	for (int i = 0; i < THREADS; i++){
 		pthread_join(threads[i], NULL);
 	}
-	parallel = stop_timer();
+	t3 = clock();
+	double time_paralelo = (double(t3 - t2)/CLOCKS_PER_SEC);
+	printf("\tTiempo en paralelo = %lf \n",time_paralelo);
 
-	cout << "\tTiempo paralelo = " << parallel << endl;
-	cout << "Speed up = " << (float) seq / (float) parallel*100 << "%" << endl;
+	cout << "Speed up = "<< (double) time_secuencial / (double) time_paralelo *100<< "%"<<endl;
 }

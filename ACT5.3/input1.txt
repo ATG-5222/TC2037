@@ -1,12 +1,22 @@
-b=7
+#include <iostream>
+using namespace std;
 
-a = 32.4 *(-8.6 - b)/       6.1E-8
+int main(){
+    // Esto es un comentario
+    cin >> input;
+    if (input == text){
+        escribe <<"Impresión de texto dentro del if.\n";
+    }
+    else{
+        cout << "Impresión de texto dentro del else.\n";
+    }
 
-d = a ^ b // Esto es un comentario
+    string palabra; // variable vacía de texto
+    int numero = 5; // variable vacía de tipo entero
 
-b=7
+    while (true) ){
+        cout << linea <<"\n";
+    }
 
-a = 32.4 *(-8.6 - b)/       6.1E-8
-
-d = a ^ b // Esto es un comentario
-m
+    return 0;
+}
