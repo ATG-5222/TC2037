@@ -239,15 +239,6 @@ int main(int argc, char* argv[]) {
 		blocks[i].file = argv[i+1];
 	}
 
-	/*
-	for (int i = 0; i < THREADS; i++){
-		blocks[i].id = i;
-		blocks[i].start = (i * size) + 1;
-		blocks[i].limit = (i != THREADS)? ((i + 1) * size) + 1 : argc;
-		blocks[i].files = argv;
-	}
-	*/
-
 	cout << "Bloque: " << blocks[0].id << endl;
 	cout << "Start: " << blocks[0].start << endl;
 	cout << "Limit: " << blocks[0].limit << endl;
