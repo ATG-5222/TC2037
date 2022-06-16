@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     t0 = clock();
 
     //ciclo para recorrer todos los número menores a 5000000
-    for(long long i = 0; i < 5000000; i++) {
+    for(long long i = 0; i < 500; i++) {
         //Verifica si el número es primo en la función, si lo es, se va sumando a la variable "suma"
         if (verificar_primo(i)) {
             suma += i;
