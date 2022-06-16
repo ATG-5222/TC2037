@@ -1,3 +1,8 @@
+// Aldo Tena García - A01275222
+// Renato Sebastían Ramirez Calva - A01275401
+// Para compilar: g++ .\main.cpp -lpthread -o app
+// Para ejecutar: \app input1.txt input2.txt
+
 #include <iostream>
 #include <string>
 #include <fstream>
