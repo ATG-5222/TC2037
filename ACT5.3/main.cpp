@@ -1,7 +1,7 @@
 // Aldo Tena García - A01275222
 // Renato Sebastían Ramirez Calva - A01275401
 // Para compilar: g++ .\main.cpp -lpthread -o app
-// Para ejecutar: \app input1.txt input2.txt
+// Para ejecutar: .\app input1.txt input2.txt
 
 #include <iostream>
 #include <string>
@@ -139,8 +139,7 @@ void* lexerAritmetico(string archivo, int start, int limit, char type, int num) 
 				else if ( c == ")" ){
 					writeFile<< writeTag("operadores",c);
 				}
-				else if (c == "'")
-				{
+				else if (c == "'"){
 					writeFile<< writeTag("operadores", c);
 				}
 				else if ( c == "," ){
