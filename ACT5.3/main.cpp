@@ -250,5 +250,7 @@ int main(int argc, char* argv[]) {
 	double time_paralelo = (double(t3 - t2)/CLOCKS_PER_SEC);
 	printf("\tTiempo en paralelo = %lf \n",time_paralelo);
 
+	cout << endl;
 	cout << "Speed up = "<< (double) time_secuencial / (double) time_paralelo *100<< "%"<<endl;
+	cout << endl;
 }
